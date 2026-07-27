@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Stablemaster's Arc — from first jog to marathon and back</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0e1626;          /* near-black slate */
+    --navy:#1F3A5F;         /* workbook navy */
+    --navy-2:#2b4a72;
+    --slate:#43597a;
+    --mist:#8ea3bf;
+    --paper:#f4f6f9;
+    --paper-2:#e7ecf2;
+    --line:#d3dbe6;
+    --gold:#e0a53f;         /* sunrise summit / money accent */
+    --gold-deep:#b9821f;
+    --spend:#c05a3a;        /* the one warm 'spend' tone */
+    --white:#ffffff;
+    --shadow:0 1px 2px rgba(14,22,38,.06),0 8px 30px rgba(14,22,38,.08);
+    --r:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    background:
+      radial-gradient(120% 90% at 85% -10%, rgba(224,165,63,.18), transparent 55%),
+      linear-gradient(160deg,#0b1322 0%, #14243c 45%, #1F3A5F 100%);
+    color:var(--white);
+    padding:64px 0 210px;
+    position:relative;
+    overflow:hidden;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--gold);opacity:.9;margin-bottom:22px;
+  }
+  h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:clamp(34px,5.2vw,62px);
+    line-height:1.02;letter-spacing:-.02em;
+    max-width:16ch;
+  }
+  h1 .spend{color:var(--gold)}
+  .lede{
+    margin-top:22px;max-width:60ch;font-size:clamp(16px,1.6vw,19px);
+    color:#cdd8e8;
+  }
+  .lede b{color:var(--white);font-weight:600}
+  .arc-note{
+    margin-top:26px;font-family:'JetBrains Mono',monospace;font-size:12.5px;
+    color:var(--mist);letter-spacing:.04em;
+  }
+  .arc-note span{color:var(--gold)}
+
+  /* ridgeline SVG sits at the base of the hero, bleeds into body */
+  .ridge{
+    position:absolute;left:0;right:0;bottom:-1px;width:100%;height:220px;display:block;
+  }
+
+  /* ---------- SECTION SHELL ---------- */
+  section{padding:70px 0}
+  .kicker{
+    font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--gold-deep);margin-bottom:12px;
+  }
+  h2{
+    font-family:'Space Grotesk',sans-serif;font-weight:600;
+    font-size:clamp(26px,3.2vw,36px);letter-spacing:-.015em;line-height:1.1;
+  }
+  .sub{color:var(--slate);max-width:66ch;margin-top:14px;font-size:16.5px}
+
+  /* ---------- PHASE RAIL ---------- */
+  .phases{position:relative;margin-top:56px}
+  .rail{
+    position:absolute;left:26px;top:8px;bottom:8px;width:3px;
+    background:linear-gradient(180deg,var(--paper-2),var(--navy) 12%,var(--navy) 74%,var(--gold) 84%,var(--spend) 100%);
+    border-radius:3px;
+  }
+  @media(min-width:820px){.rail{left:calc(50% - 1.5px)}}
+
+  .phase{position:relative;padding-left:70px;margin-bottom:26px}
+  @media(min-width:820px){
+    .phase{width:50%;padding-left:0}
+    .phase.left{left:0;padding-right:56px;text-align:right}
+    .phase.right{left:50%;padding-left:56px}
+  }
+
+  .node{
+    position:absolute;left:16px;top:26px;width:24px;height:24px;border-radius:50%;
+    background:var(--white);border:3px solid var(--navy);z-index:3;
+    display:grid;place-items:center;
+    font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--navy);
+  }
+  @media(min-width:820px){
+    .phase.left .node{left:auto;right:-12px}
+    .phase.right .node{left:-12px}
+  }
+  .phase.summit .node{border-color:var(--gold);background:var(--gold);color:#3a2a06;
+    box-shadow:0 0 0 6px rgba(224,165,63,.22)}
+  .phase.spendp .node{border-color:var(--spend);color:var(--spend)}
+  .phase.racep .node{border-color:var(--spend);background:var(--spend);color:#fff;
+    box-shadow:0 0 0 5px rgba(192,90,58,.18)}
+
+  .card{
+    background:var(--white);border:1px solid var(--line);border-radius:var(--r);
+    box-shadow:var(--shadow);padding:22px 24px;position:relative;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .card:hover{transform:translateY(-3px);box-shadow:0 6px 14px rgba(14,22,38,.10),0 18px 44px rgba(14,22,38,.12)}
+  .phase.summit .card{border-color:var(--gold);
+    background:linear-gradient(180deg,#fffdf7, #fff8ea)}
+  .phase.spendp .card{border-color:#e8c3b6;background:linear-gradient(180deg,#fffaf8,#fdf1ec)}
+  .phase.racep .card{border-color:#e0b3a4;border-left:4px solid var(--spend);background:linear-gradient(180deg,#fffaf8,#fbeee7)}
+
+  .ph-top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .phase.left .ph-top{justify-content:flex-end}
+  .ph-name{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:20px;letter-spacing:-.01em}
+  .ph-weeks{
+    font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;
+    color:var(--navy);background:var(--paper-2);padding:3px 9px;border-radius:999px;white-space:nowrap;
+  }
+  .phase.summit .ph-weeks{color:#3a2a06;background:#f6e4bd}
+  .phase.spendp .ph-weeks{color:#7d3b23;background:#f6ddd2}
+  .phase.racep .ph-weeks{color:#fff;background:var(--spend)}
+
+  .ph-does{margin-top:12px;color:#33425c;font-size:15px}
+  .ph-gate{
+    margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);
+    font-size:13px;color:var(--slate);display:flex;gap:8px;
+  }
+  .phase.left .ph-gate{flex-direction:row-reverse;text-align:right}
+  .ph-gate .lab{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--gold-deep);font-weight:700;flex-shrink:0;padding-top:2px}
+
+  /* bank/spend strip */
+  .ledger{
+    margin-top:64px;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);
+    display:grid;grid-template-columns:1fr;box-shadow:var(--shadow);
+  }
+  @media(min-width:720px){.ledger{grid-template-columns:1.4fr 1fr}}
+  .ledger .bank{background:linear-gradient(140deg,#16273f,#22456e);color:#eaf1fa;padding:30px 32px}
+  .ledger .spend{background:linear-gradient(140deg,#fff6ef,#fbe7dd);padding:30px 32px}
+  .ledger h3{font-family:'Space Grotesk',sans-serif;font-size:20px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+  .ledger .bank h3 .dot{width:10px;height:10px;border-radius:50%;background:var(--gold)}
+  .ledger .spend h3{color:var(--spend)}
+  .ledger .spend h3 .dot{width:10px;height:10px;border-radius:50%;background:var(--spend)}
+  .ledger p{font-size:14.5px}
+  .ledger .bank p{color:#c6d4e6}
+  .ledger .spend p{color:#794435}
+  .quote{font-style:italic;margin-top:14px;font-size:14px;padding-left:14px;border-left:3px solid rgba(224,165,63,.6)}
+  .ledger .spend .quote{border-color:var(--spend)}
+
+  /* ---------- AFTER THE MARATHON ---------- */
+  .after{background:var(--ink);color:#e7edf6}
+  .after .kicker{color:var(--gold)}
+  .after h2{color:var(--white)}
+  .after .sub{color:#a9bad2}
+  .steps{display:grid;gap:18px;margin-top:44px;grid-template-columns:1fr}
+  @media(min-width:720px){.steps{grid-template-columns:repeat(3,1fr)}}
+  .step{
+    background:linear-gradient(180deg,#16233a,#111c30);border:1px solid #26384f;border-radius:var(--r);
+    padding:24px;position:relative;
+  }
+  .step .n{font-family:'JetBrains Mono',monospace;color:var(--gold);font-size:12px;letter-spacing:.2em;font-weight:700}
+  .step h4{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:18px;margin:10px 0 8px;color:var(--white)}
+  .step p{font-size:14px;color:#a9bad2}
+  .step .wk{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--mist);margin-top:12px;display:block}
+  .rebound{
+    margin-top:40px;background:linear-gradient(140deg,#1a2c1e,#14261a);
+    border:1px solid #2c4a33;border-left:4px solid var(--gold);
+    border-radius:var(--r);padding:26px 30px;
+  }
+  .rebound b{color:var(--gold)}
+  .rebound p{color:#cfe0d3;font-size:15px}
+
+  /* ---------- HONESTY / SOURCES ---------- */
+  .notes{background:var(--paper)}
+  .note-grid{display:grid;gap:16px;margin-top:36px;grid-template-columns:1fr}
+  @media(min-width:720px){.note-grid{grid-template-columns:1fr 1fr}}
+  .note{background:var(--white);border:1px solid var(--line);border-radius:var(--r);padding:22px 24px;box-shadow:var(--shadow)}
+  .note .tag{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+    font-weight:700;padding:3px 9px;border-radius:999px;display:inline-block;margin-bottom:12px}
+  .tag.said{background:#e3ecf7;color:var(--navy)}
+  .tag.tension{background:#fbe7dd;color:var(--spend)}
+  .tag.mine{background:#efe7d0;color:var(--gold-deep)}
+  .note h4{font-family:'Space Grotesk',sans-serif;font-size:16px;margin-bottom:6px}
+  .note p{font-size:14px;color:#3a4a63}
+  .note .src{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--mist);margin-top:10px}
+
+  footer{background:var(--navy);color:#c6d4e6;padding:34px 0;font-size:13px}
+  footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+  footer b{color:var(--white);font-family:'Space Grotesk',sans-serif}
+
+  @media (prefers-reduced-motion:no-preference){
+    .phase{opacity:0;transform:translateY(18px);animation:rise .6s ease forwards}
+    .phase:nth-child(2){animation-delay:.05s}.phase:nth-child(3){animation-delay:.1s}
+    .phase:nth-child(4){animation-delay:.15s}.phase:nth-child(5){animation-delay:.2s}
+    .phase:nth-child(6){animation-delay:.25s}.phase:nth-child(7){animation-delay:.3s}
+    .phase:nth-child(8){animation-delay:.35s}.phase:nth-child(9){animation-delay:.4s}
+    @keyframes rise{to{opacity:1;transform:none}}
+    .dash{stroke-dasharray:6 7;animation:flow 22s linear infinite}
+    @keyframes flow{to{stroke-dashoffset:-260}}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">The Stablemaster's Method · John Starrett</div>
+    <h1>Build the fitness for a year. <span class="spend">Spend it</span> in one race.</h1>
+    <p class="lede">John Starrett coaches the marathon as a slow climb, not a scramble. A newer runner
+      spends roughly a year layering seven blocks on top of each other — each one earning the right to
+      the next — until the body is ready to <b>race once</b>, hard. Then it recovers, and the fitness
+      settles in <b>higher than it started</b>.</p>
+    <p class="arc-note">≈ 1 year, first jog → start line &nbsp;·&nbsp; <span>4 runs a week</span> &nbsp;·&nbsp; one marathon a year &nbsp;·&nbsp; scroll the ridge ↓</p>
+  </div>
+
+  <!-- ascending ridgeline: each vertex is a phase, cresting gold at the marathon -->
+  <svg class="ridge" viewBox="0 0 1200 300" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#f4f6f9" stop-opacity="0"/>
+        <stop offset="1" stop-color="#f4f6f9"/>
+      </linearGradient>
+      <linearGradient id="stroke" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#8ea3bf"/>
+        <stop offset="0.7" stop-color="#2b4a72"/>
+        <stop offset="0.82" stop-color="#e0a53f"/>
+        <stop offset="1" stop-color="#c05a3a"/>
+      </linearGradient>
+    </defs>
+    <!-- climb rising left->right: small benchmark-race notch ~x=520, marathon summit ~x=980,
+         then recovery dip settling higher than the start -->
+    <path d="M0,270 L150,250 L310,224 L460,198 L520,210 L580,190 L700,166 L820,120 L980,70 L1040,150 L1120,132 L1200,120"
+          fill="none" stroke="url(#stroke)" stroke-width="3.5" class="dash"/>
+    <path d="M0,270 L150,250 L310,224 L460,198 L520,210 L580,190 L700,166 L820,120 L980,70 L1040,150 L1120,132 L1200,120 L1200,300 L0,300 Z"
+          fill="url(#fill)"/>
+    <circle cx="520" cy="210" r="5" fill="#c05a3a" stroke="#fff" stroke-width="2"/>
+    <circle cx="980" cy="70" r="7" fill="#e0a53f" stroke="#fff" stroke-width="2"/>
+  </svg>
+</header>
+
+<!-- ============ THE SEVEN BLOCKS ============ -->
+<section class="build">
+  <div class="wrap">
+    <div class="kicker">Putting money in the bank</div>
+    <h2>The seven blocks of the build</h2>
+    <p class="sub">Each block has one job and a gate you have to pass before the next one starts.
+      Weeks shown are John's rough guidance for a slower, newer runner — treat them as a floor to
+      repeat, not a countdown. The whole build runs about a year.</p>
+
+    <div class="phases">
+      <div class="rail"></div>
+
+      <div class="phase left">
+        <div class="node">0</div>
+        <div class="card">
+          <div class="ph-top"><span class="ph-name">Pre-Foundation</span><span class="ph-weeks">≈ 2 wk</span></div>
+          <p class="ph-does">The on-ramp for a true beginner: jog-walk and very short easy runs, just to get
+            the body used to being on its feet. Skippable if you can already run 30+ minutes comfortably.</p>
+          <div class="ph-gate"><span class="lab">Gate</span><span>Can run ~35 min easy, continuous.</span></div>
+        </div>
+      </div>
+
+      <div class="phase right">
+        <div class="node">1</div>
+        <div class="card">
+          <div class="ph-top"><span class="ph-name">Foundation</span><span class="ph-weeks">≈ 7–10 wk</span></div>
+          <p class="ph-does">Build easy volume to <b>3×65 min + one 90 min run</b>. No tempo, no intervals —
+            just time on feet to toughen the musculoskeletal system and learn to run by feel. This is where
+            beginners get hurt if they rush it.</p>
+          <div class="ph-gate"><span class="lab">Gate</span><span>3×65 + 90 min easy, comfortably.</span></div>
+        </div>
+      </div>
+
+      <div class="phase left">
+        <div class="node">2</div>
+        <div class="card">
+          <div class="ph-top"><span class="ph-name">Pre-Super Base</span><span class="ph-weeks">≈ 7–8 wk</span></div>
+          <p class="ph-does">Rewire the stride: turn a hip-flexor "shuffle" into a glute-driven run. Two tools —
+            <b>8-second hill blasts</b> and <b>aerobic strides</b> — build running economy without real fatigue.
+            The long run stays at 90 min.</p>
+          <div class="ph-gate"><span class="lab">Gate</span><span>Form feels automatic; economy improved.</span></div>
+        </div>
+      </div>
+
+      <div class="phase right">
+        <div class="node">3</div>
+        <div class="card">
+          <div class="ph-top"><span class="ph-name">Super Base</span><span class="ph-weeks">≈ 14 wk</span></div>
+          <p class="ph-does">The first real fitness block. A midweek tempo session and a Saturday "endurance
+            spine" long run descend and re-ascend the <b>V-shaped valley of death</b> (8×5→…→20×1 and back),
+            getting faster while the spine holds it together.</p>
+          <div class="ph-gate"><span class="lab">Gate</span><span>Strong and durable — then race a benchmark half.</span></div>
+        </div>
+      </div>
+
+      <div class="phase left racep">
+        <div class="node">🏅</div>
+        <div class="card">
+          <div class="ph-top"><span class="ph-name">🏁 Benchmark Half</span><span class="ph-weeks">race day</span></div>
+          <p class="ph-does">A first small "spend." Coming off the Super Base, John says to <b>race a 10K
+            or half marathon</b> to get a benchmark of where you are — before any marathon-specific work.
+            The result tells you what to build toward and calibrates your paces.</p>
+          <div class="ph-gate"><span class="lab">Then</span><span>Use the time to set up the Bridge.</span></div>
+        </div>
+      </div>
+
+      <div class="phase right">
+        <div class="node">4</div>
+        <div class="card">
+          <div class="ph-top"><span class="ph-name">Marathon Bridge</span><span class="ph-weeks">≈ 16–20 wk</span></div>
+          <p class="ph-does">Transition from "strong" to "sharp." Tighter recoveries and 10K–10-mile–half-marathon
+            sessions get you fast over the half. John calls the underlying idea <b>temporal-flow training</b> —
+            building resistance to fatigue. Effectively makes you half-marathon fit.</p>
+          <div class="ph-gate"><span class="lab">Race along the way</span><span>Drop in 5K / 10K / half races through the buildup — the Bridge is built to get you fast over the half, so racing it is on-plan.</span></div>
+        </div>
+      </div>
+
+      <div class="phase left">
+        <div class="node">5</div>
+        <div class="card">
+          <div class="ph-top"><span class="ph-name">Marathon Specific</span><span class="ph-weeks">≈ 8–12 wk</span></div>
+          <p class="ph-does">Now it gets marathon-specific. A hard half-marathon <b>10–12 weeks out</b> sets your
+            marathon pace (≈ 2× half + 6 min). Then long runs move toward marathon pace — 12→14→18 miles at pace —
+            peaking about <b>4–5 weeks out</b>. John's warning: most people overdo this phase.</p>
+          <div class="ph-gate"><span class="lab">Gate</span><span>Peak long run done, then taper.</span></div>
+        </div>
+      </div>
+
+      <div class="phase right summit">
+        <div class="node">★</div>
+        <div class="card">
+          <div class="ph-top"><span class="ph-name">🏁 The Marathon</span><span class="ph-weeks">1 day</span></div>
+          <p class="ph-does">The summit. After a short taper, you race — <b>once</b>. This is the withdrawal:
+            a year of banked fitness, spent on purpose. Race by effort, not ego.</p>
+          <div class="ph-gate"><span class="lab">Then</span><span>Recover — the climb resolves higher than it began.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- bank vs spend -->
+    <div class="ledger">
+      <div class="bank">
+        <h3><span class="dot"></span>Training is banking</h3>
+        <p>Every easy run, hill blast and endurance spine is a deposit. The blocks compound — you don't
+          skip ahead, because the next block spends the balance the last one built.</p>
+        <p class="quote">"Training is putting money in the bank. Racing is spending it."</p>
+      </div>
+      <div class="spend">
+        <h3><span class="dot"></span>Racing is spending</h3>
+        <p>Race for a purpose, not a target. One marathon a year, not two — two marathons is copying elites,
+          who do it for money. Let the 5K/10K/half PBs along the way be the everyday withdrawals.</p>
+        <p class="quote">"Race for a marker, not a target."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AFTER THE MARATHON ============ -->
+<section class="after">
+  <div class="wrap">
+    <div class="kicker">Spending it — and what comes after</div>
+    <h2>After the race: recover, then climb from higher up</h2>
+    <p class="sub">The marathon isn't the end of the arc — it's a "super session." Handled right, your baseline
+      fitness ends up <b>ahead</b> of where it was on race morning. Handled wrong, you dig a hole.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="n">01 · RECOVER</div>
+        <h4>Let the system reset</h4>
+        <p>Metabolically you feel okay in 7–10 days, but the central nervous system needs a solid three
+          weeks after a hard marathon. Don't rush it. This is non-negotiable for the rebound to happen.</p>
+        <span class="wk">≈ 3 weeks</span>
+      </div>
+      <div class="step">
+        <div class="n">02 · BRIDGE BACK</div>
+        <h4>Transition in gently</h4>
+        <p>Come back with light, easy running and a few gentle sessions — a mini bridge — before any real
+          building. You're re-opening the account, not making big deposits yet.</p>
+        <span class="wk">≈ 1–3 weeks</span>
+      </div>
+      <div class="step">
+        <div class="n">03 · CLIMB AGAIN</div>
+        <h4>Start the next arc higher</h4>
+        <p>Re-enter the cycle — usually back around the Super Base or Bridge, not Foundation. Your default
+          fitness is now higher, so the next year's build starts from a better base.</p>
+        <span class="wk">next block</span>
+      </div>
+    </div>
+
+    <div class="rebound">
+      <p><b>The rebound, in John's words:</b> "Your default fitness will be ahead of where you were when you
+        ran the marathon, because the marathon acts as a super session — as long as you recover properly from
+        it." An optional backup marathon 4–6 weeks later is possible if the first went wrong and the fitness
+        wasn't all spent — but it isn't ideal.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HONESTY / SOURCING ============ -->
+<section class="notes">
+  <div class="wrap">
+    <div class="kicker">Reading the map honestly</div>
+    <h2>What's his, what's a judgment call, where the numbers wobble</h2>
+    <p class="sub">This diagram follows your project's rule: separate what John actually says from
+      reasonable extrapolation, and surface tensions instead of hiding them.</p>
+
+    <div class="note-grid">
+      <div class="note">
+        <span class="tag said">His method</span>
+        <h4>The block sequence is his</h4>
+        <p>Foundation → Pre-Super Base → Super Base → <i>benchmark race</i> → Marathon Bridge → Marathon
+          Specific → marathon → recover is John's stated system, repeated across several episodes and the
+          YouTube interview.</p>
+        <p class="src">Ep. 044, Ep. 049, Ep. 013; YouTube "Coaching Beginners to Olympians"</p>
+      </div>
+      <div class="note">
+        <span class="tag said">His guidance</span>
+        <h4>Race a half after the Super Base — and during the Bridge</h4>
+        <p>"At this point now I'd get them to race, maybe a 10K or a half marathon and get a benchmark of
+          where they are." The Bridge itself "effectively helps you get really fit for half marathons," built
+          on "10K, a tickle, 10-mile, half-marathon" sessions — so racing shorter events through it is on-plan,
+          not a distraction.</p>
+        <p class="src">Ep. 044 (benchmark race); Ep. 013 (Bridge = half-marathon fitness)</p>
+      </div>
+      <div class="note">
+        <span class="tag tension">Tension to know</span>
+        <h4>How long is the Super Base?</h4>
+        <p>He calls it "14 weeks" as its canonical length (and your workbook uses that), but in Ep. 013 he
+          also describes it running "about four, four-and-a-half months." Both are his — the shorter figure
+          is the structured block; the longer includes lead-in/variation. Treat 14 wk as the core.</p>
+        <p class="src">Ep. 044 (14 wk) vs Ep. 013 (~4–4.5 mo)</p>
+      </div>
+      <div class="note">
+        <span class="tag mine">My extrapolation</span>
+        <h4>The exact week counts per block</h4>
+        <p>John gives ranges and says slower runners need <i>longer</i> ("an elongated pre super base…
+          rather than the seven weeks it normally takes"). The specific spans here are my reading of that
+          guidance, sized for a newer, slower runner — not a fixed published program.</p>
+        <p class="src">Foundation & Pre-Super Base workbook, Inputs + Coach Philosophy tabs</p>
+      </div>
+      <div class="note">
+        <span class="tag said">His guidance</span>
+        <h4>Bridge lengths &amp; the pace math</h4>
+        <p>Bridge ≈ 4–5 months max; marathon pace ≈ 2× your half + 6 min; hard half 10–12 weeks out; peak
+          long run 4–5 weeks out; post-marathon CNS recovery ≈ 3 weeks. All stated by John.</p>
+        <p class="src">Ep. 013, Ep. 004, Ep. 029</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Diagram of the training arc in <b>The Stablemaster Speaks — The Art of the Marathon</b> (John "Stazza" Starrett).</span>
+    <span>Companion to the Foundation / Pre-Super Base &amp; Super Base workbooks.</span>
+  </div>
+</footer>
+
+</body>
+</html>
