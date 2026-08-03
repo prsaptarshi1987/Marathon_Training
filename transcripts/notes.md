@@ -2,6 +2,14 @@
 
 Distilled from: `The Stablemaster Speaks_The Art of the Marathon_all_transcripts.txt` (~28,600-line raw podcast transcript, John "Stazza" Starrett / Michelle Hazlewood-Terrace, episodes 001–052 + one appended YouTube interview). This is a **concise reference**, not exhaustive — host banter, sponsor/prize talk, guest bios, and repeated intros/outros have been stripped out. Numbers/paces are illustrative examples from the podcast, not universal constants — always calibrate to the individual.
 
+## Personal Pace Calibration (read this before any pace number below)
+
+The podcast's guest examples skew toward much faster runners (sub-3:00 to sub-2:15 marathoners), so its literal pace figures — e.g. "easy ceiling ~7:50/mile," "start easy runs ~8:30–8:45/mi" (§3), tempo/marathon-pace splits in §4–5 — **do not apply directly to this user.**
+
+- **This user's actual easy/conversational pace is ~12:00–13:00 min/mile.**
+- Treat every specific pace figure elsewhere in this document as an *illustrative example from a faster runner*, not a target. Apply the underlying **principle** (conversational/nose-breathing effort, "no such thing as too slow" on easy days, effort-based key-session structure — reps/duration/RPE rather than exact splits) using this user's own pace zone.
+- When key workouts are defined by *effort* (e.g. "5K effort," "10-mile effort," "goal marathon pace") rather than a fixed number, translate them to this user's own current race-effort paces, not the podcast's cited numbers.
+
 ---
 
 ## 1. Training Philosophy & Overall Approach
